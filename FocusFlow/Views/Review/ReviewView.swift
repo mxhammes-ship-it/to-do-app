@@ -56,7 +56,7 @@ private struct ReviewTaskRow: View {
             VStack(alignment: .leading, spacing: 3) {
                 Text(task.title).font(.body)
                 if let deadline = task.deadline {
-                    Text(deadline, format: .dateTime.day().month().year())
+                    Text(deadline, format: .dateTime.day(.twoDigits).month().year())
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }

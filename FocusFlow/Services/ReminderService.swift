@@ -11,14 +11,17 @@ class ReminderService {
 
     func schedule(task: FocusTask, at date: Date) {
         cancel(taskID: task.id)
-        let delay = date.timeIntervalSinceNow
-        guard delay > 0 else { return }
-
         let taskID = task.id
+        let delay = date.timeIntervalSinceNow
+
+        guard delay > 0 else {
+            // Bereits fällig – sofort im nächsten Runloop triggern
+            DispatchQueue.main.async { self.onReminderFired?(taskID) }
+            return
+        }
+
         let timer = Timer(timeInterval: delay, repeats: false) { [weak self] _ in
-            DispatchQueue.main.async {
-                self?.onReminderFired?(taskID)
-            }
+            DispatchQueue.main.async { self?.onReminderFired?(taskID) }
         }
         RunLoop.main.add(timer, forMode: .common)
         timers[taskID] = timer

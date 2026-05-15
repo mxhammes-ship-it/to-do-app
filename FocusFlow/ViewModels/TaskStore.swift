@@ -166,11 +166,12 @@ class TaskStore: ObservableObject {
     }
 
     private func rescheduleAllReminders() {
+        let cutoff = Date().addingTimeInterval(-86400)
         for task in tasks {
             guard task.status != .completed,
                   task.status != .archived,
                   let date = task.reminderDate,
-                  date > Date() else { continue }
+                  date > cutoff else { continue }
             ReminderService.shared.schedule(task: task, at: date)
         }
     }

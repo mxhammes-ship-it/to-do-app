@@ -336,7 +336,7 @@ private struct ReminderTaskRow: View {
                     .lineLimit(1)
                 HStack(spacing: 6) {
                     if let deadline = task.deadline {
-                        Text(deadline, format: .dateTime.day().month())
+                        Text(deadline, format: .dateTime.day(.twoDigits).month())
                             .font(.caption2)
                             .foregroundStyle(.secondary)
                     }

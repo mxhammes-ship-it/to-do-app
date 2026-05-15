@@ -13,9 +13,7 @@ struct TaskFormView: View {
     @State private var projectID: UUID? = nil
     @State private var deadline: Date = Date().addingTimeInterval(86400)
     @State private var hasDeadline = false
-    @State private var reminder: Date = {
-        Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date()) ?? Date()
-    }()
+    @State private var reminder: Date = Date()
     @State private var hasReminder = false
     @State private var estimatedMinutes = 30
     @State private var hasEstimate = false

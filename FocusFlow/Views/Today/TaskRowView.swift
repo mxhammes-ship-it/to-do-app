@@ -52,7 +52,7 @@ struct TaskRowView: View {
                 HStack(spacing: 10) {
                     if let deadline = task.deadline {
                         Label {
-                            Text(deadline, format: .dateTime.day().month())
+                            Text(deadline, format: .dateTime.day(.twoDigits).month())
                         } icon: {
                             Image(systemName: "calendar")
                         }
