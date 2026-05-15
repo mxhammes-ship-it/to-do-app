@@ -112,8 +112,7 @@ final class ReminderWindowController {
     private static func panelHeight(for taskCount: Int) -> CGFloat {
         switch taskCount {
         case 1:  return 200
-        case 2:  return 248
-        default: return 290
+        default: return 248
         }
     }
 
@@ -245,7 +244,7 @@ struct ReminderPanelView: View {
                 }
             }
         } else {
-            // Ab 3 Tasks: feste Höhe mit Scroll
+            // Ab 3 Tasks: feste Höhe für 2 sichtbare Rows, Rest scrollbar
             ScrollView {
                 LazyVStack(spacing: 0) {
                     ForEach(center.activeTasks) { task in
@@ -258,7 +257,7 @@ struct ReminderPanelView: View {
                     }
                 }
             }
-            .frame(height: 138)
+            .frame(height: 97)
         }
     }
 
