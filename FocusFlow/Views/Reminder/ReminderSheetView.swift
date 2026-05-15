@@ -149,7 +149,7 @@ struct ReminderPanelView: View {
         .onAppear {
             if selectedID == nil { selectedID = center.activeTasks.first?.id }
         }
-        .onChange(of: center.activeTasks) { new in
+        .onChange(of: center.activeTasks) { _, new in
             if let id = selectedID, !new.contains(where: { $0.id == id }) {
                 selectedID = new.first?.id
             }
