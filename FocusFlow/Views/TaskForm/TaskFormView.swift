@@ -94,12 +94,14 @@ struct TaskFormView: View {
                         if hasDeadline {
                             DatePicker("", selection: $deadline, displayedComponents: .date)
                                 .labelsHidden().datePickerStyle(.compact)
+                                .environment(\.locale, Locale(identifier: "de_CH"))
                         }
                         Divider()
                         Toggle("Reminder", isOn: $hasReminder)
                         if hasReminder {
                             DatePicker("", selection: $reminder, displayedComponents: [.date, .hourAndMinute])
                                 .labelsHidden().datePickerStyle(.compact)
+                                .environment(\.locale, Locale(identifier: "de_CH"))
                         }
                         Divider()
                         Toggle("Zeitschätzung", isOn: $hasEstimate)
