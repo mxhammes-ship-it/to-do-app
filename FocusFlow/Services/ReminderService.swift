@@ -1,64 +1,31 @@
 import Foundation
-import UserNotifications
 
-class ReminderService: NSObject, UNUserNotificationCenterDelegate {
+class ReminderService {
     static let shared = ReminderService()
 
     var onReminderFired: ((UUID) -> Void)?
 
-    private override init() {
-        super.init()
-        UNUserNotificationCenter.current().delegate = self
-        requestPermission()
-    }
+    private var timers: [UUID: Timer] = [:]
 
-    func requestPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
-    }
+    private init() {}
 
     func schedule(task: FocusTask, at date: Date) {
-        guard date > Date() else { return }
+        cancel(taskID: task.id)
+        let delay = date.timeIntervalSinceNow
+        guard delay > 0 else { return }
 
-        let content = UNMutableNotificationContent()
-        content.title = "FocusFlow"
-        content.body = task.title
-        content.sound = .default
-        content.userInfo = ["taskID": task.id.uuidString]
-
-        let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
-        let request = UNNotificationRequest(identifier: task.id.uuidString, content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(request)
+        let taskID = task.id
+        let timer = Timer(timeInterval: delay, repeats: false) { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.onReminderFired?(taskID)
+            }
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        timers[taskID] = timer
     }
 
     func cancel(taskID: UUID) {
-        let id = taskID.uuidString
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id])
-        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [id])
-    }
-
-    // Show overlay when notification fires while app is in foreground
-    func userNotificationCenter(
-        _ center: UNUserNotificationCenter,
-        willPresent notification: UNNotification,
-        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
-    ) {
-        if let idString = notification.request.content.userInfo["taskID"] as? String,
-           let uuid = UUID(uuidString: idString) {
-            DispatchQueue.main.async { self.onReminderFired?(uuid) }
-        }
-        completionHandler([])
-    }
-
-    func userNotificationCenter(
-        _ center: UNUserNotificationCenter,
-        didReceive response: UNNotificationResponse,
-        withCompletionHandler completionHandler: @escaping () -> Void
-    ) {
-        if let idString = response.notification.request.content.userInfo["taskID"] as? String,
-           let uuid = UUID(uuidString: idString) {
-            DispatchQueue.main.async { self.onReminderFired?(uuid) }
-        }
-        completionHandler()
+        timers[taskID]?.invalidate()
+        timers[taskID] = nil
     }
 }

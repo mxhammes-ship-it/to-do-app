@@ -13,6 +13,7 @@ class TaskStore: ObservableObject {
         checkForReviewTasks()
         scheduleEndOfDayCheck()
         setupReminderCallback()
+        rescheduleAllReminders()
     }
 
     // MARK: - Computed Lists
@@ -161,6 +162,16 @@ class TaskStore: ObservableObject {
             if let task = self.tasks.first(where: { $0.id == taskID }) {
                 ReminderCenter.shared.present(task: task)
             }
+        }
+    }
+
+    private func rescheduleAllReminders() {
+        for task in tasks {
+            guard task.status != .completed,
+                  task.status != .archived,
+                  let date = task.reminderDate,
+                  date > Date() else { continue }
+            ReminderService.shared.schedule(task: task, at: date)
         }
     }
 

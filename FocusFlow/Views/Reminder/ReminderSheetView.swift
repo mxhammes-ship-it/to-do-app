@@ -1,6 +1,5 @@
 import AppKit
 import SwiftUI
-import Combine
 
 // MARK: - Reminder Center (zentrale Verwaltung aller aktiven Reminders)
 
@@ -88,12 +87,11 @@ final class ReminderWindowController {
         let view = ReminderPanelView()
             .environmentObject(ReminderCenter.shared)
         let hosting = NSHostingController(rootView: view)
-        let size = CGSize(width: 360, height: 500)
-        hosting.view.frame = NSRect(origin: .zero, size: size)
+        let size = CGSize(width: 360, height: 480)
 
         let p = NSPanel(
             contentRect: NSRect(origin: .zero, size: size),
-            styleMask: [.nonactivatingPanel, .fullSizeContentView, .borderless],
+            styleMask: [.nonactivatingPanel, .borderless],
             backing: .buffered,
             defer: false
         )
