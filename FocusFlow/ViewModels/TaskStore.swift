@@ -155,10 +155,11 @@ class TaskStore: ObservableObject {
     // MARK: - Reminder Callback
 
     private func setupReminderCallback() {
+        ReminderCenter.shared.store = self
         ReminderService.shared.onReminderFired = { [weak self] taskID in
             guard let self else { return }
             if let task = self.tasks.first(where: { $0.id == taskID }) {
-                ReminderWindowController.present(task: task, store: self)
+                ReminderCenter.shared.present(task: task)
             }
         }
     }
