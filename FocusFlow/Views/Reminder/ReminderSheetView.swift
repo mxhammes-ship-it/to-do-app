@@ -18,21 +18,29 @@ final class ReminderCenter: ObservableObject {
         } else {
             activeTasks.append(task)
         }
-        ReminderWindowController.showIfNeeded(taskCount: activeTasks.count)
+        let count = activeTasks.count
+        DispatchQueue.main.async {
+            ReminderWindowController.showIfNeeded(taskCount: count)
+        }
     }
 
     func dismiss(taskID: UUID) {
         activeTasks.removeAll { $0.id == taskID }
-        if activeTasks.isEmpty {
-            ReminderWindowController.close()
-        } else {
-            ReminderWindowController.resize(for: activeTasks.count)
+        let count = activeTasks.count
+        DispatchQueue.main.async {
+            if count == 0 {
+                ReminderWindowController.close()
+            } else {
+                ReminderWindowController.resize(for: count)
+            }
         }
     }
 
     func dismissAll() {
         activeTasks.removeAll()
-        ReminderWindowController.close()
+        DispatchQueue.main.async {
+            ReminderWindowController.close()
+        }
     }
 
     func snooze(taskID: UUID, minutes: Int) {
