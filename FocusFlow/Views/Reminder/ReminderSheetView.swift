@@ -87,7 +87,7 @@ final class ReminderWindowController {
         let view = ReminderPanelView()
             .environmentObject(ReminderCenter.shared)
         let hosting = NSHostingController(rootView: view)
-        let size = CGSize(width: 360, height: 480)
+        let size = CGSize(width: 360, height: 290)
 
         let p = NSPanel(
             contentRect: NSRect(origin: .zero, size: size),
@@ -133,9 +133,7 @@ struct ReminderPanelView: View {
             header
             Divider().opacity(0.5)
             taskList
-            Divider().opacity(0.5)
             if let task = selectedTask {
-                snoozeSection(for: task)
                 Divider().opacity(0.5)
                 actionBar(for: task)
             }
@@ -191,7 +189,7 @@ struct ReminderPanelView: View {
             .buttonStyle(.plain)
         }
         .padding(.horizontal, 14)
-        .padding(.vertical, 12)
+        .padding(.vertical, 10)
     }
 
     // MARK: Task List
@@ -212,54 +210,62 @@ struct ReminderPanelView: View {
                 }
             }
         }
-        .frame(maxHeight: min(CGFloat(center.activeTasks.count) * 56 + 8, 200))
-    }
-
-    // MARK: Snooze Section
-
-    private func snoozeSection(for task: FocusTask) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Erinnere mich in …")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-
-            HStack(spacing: 6) {
-                SnoozeChip("15 Min") { center.snooze(taskID: task.id, minutes: 15) }
-                SnoozeChip("30 Min") { center.snooze(taskID: task.id, minutes: 30) }
-                SnoozeChip("1 Std")  { center.snooze(taskID: task.id, minutes: 60) }
-            }
-            HStack(spacing: 6) {
-                SnoozeChip("2 Std") { center.snooze(taskID: task.id, minutes: 120) }
-                SnoozeChip("4 Std") { center.snooze(taskID: task.id, minutes: 240) }
-                Color.clear.frame(maxWidth: .infinity) // Platzhalter für Spaltenbreite
-            }
-            Button { center.snoozeTomorrow(taskID: task.id) } label: {
-                Label("Morgen früh, 8:00 Uhr", systemImage: "sunrise")
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(.bordered)
-            .controlSize(.regular)
-        }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 12)
+        .frame(maxHeight: min(CGFloat(center.activeTasks.count) * 48 + 8, 160))
     }
 
     // MARK: Action Bar
 
     private func actionBar(for task: FocusTask) -> some View {
-        HStack(spacing: 8) {
-            Button("Schliessen") { center.dismiss(taskID: task.id) }
-                .buttonStyle(.bordered)
+        VStack(spacing: 8) {
+            // Split-Snooze: linke Hälfte = Default 15 Min, rechte Hälfte = Dropdown
+            HStack(spacing: 0) {
+                Button("Snooze") {
+                    center.snooze(taskID: task.id, minutes: 15)
+                }
+                .buttonStyle(.plain)
                 .frame(maxWidth: .infinity)
-            Button { center.complete(taskID: task.id) } label: {
-                Label("Erledigt", systemImage: "checkmark")
-                    .frame(maxWidth: .infinity)
+                .padding(.vertical, 6)
+
+                Divider().frame(height: 18)
+
+                Menu {
+                    Button("15 Minuten") { center.snooze(taskID: task.id, minutes: 15) }
+                    Button("30 Minuten") { center.snooze(taskID: task.id, minutes: 30) }
+                    Button("1 Stunde")   { center.snooze(taskID: task.id, minutes: 60) }
+                    Button("2 Stunden")  { center.snooze(taskID: task.id, minutes: 120) }
+                    Button("4 Stunden")  { center.snooze(taskID: task.id, minutes: 240) }
+                    Divider()
+                    Button("1 Tag")      { center.snooze(taskID: task.id, minutes: 1440) }
+                    Button("2 Tage")     { center.snooze(taskID: task.id, minutes: 2880) }
+                    Button("1 Woche")    { center.snooze(taskID: task.id, minutes: 10080) }
+                } label: {
+                    Image(systemName: "chevron.down")
+                        .font(.caption.weight(.medium))
+                        .frame(width: 28)
+                        .padding(.vertical, 6)
+                }
+                .menuStyle(.borderlessButton)
             }
-            .buttonStyle(.borderedProminent)
-            .tint(.green)
+            .background(.quaternary.opacity(0.6))
+            .clipShape(RoundedRectangle(cornerRadius: 6))
+            .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.secondary.opacity(0.2), lineWidth: 0.5))
+
+            // Dismiss + Complete
+            HStack(spacing: 8) {
+                Button("Schliessen") { center.dismiss(taskID: task.id) }
+                    .buttonStyle(.bordered)
+                    .frame(maxWidth: .infinity)
+
+                Button { center.complete(taskID: task.id) } label: {
+                    Label("Erledigt", systemImage: "checkmark")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.green)
+            }
         }
         .padding(.horizontal, 14)
-        .padding(.vertical, 12)
+        .padding(.vertical, 11)
     }
 }
 
@@ -294,15 +300,17 @@ private struct ReminderTaskRow: View {
                 }
             }
             Spacer()
-            if isSelected {
-                Image(systemName: "chevron.right")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-            }
         }
         .padding(.horizontal, 14)
-        .padding(.vertical, 10)
-        .background(isSelected ? Color.accentColor.opacity(0.12) : .clear)
+        .padding(.vertical, 8)
+        .background(isSelected ? Color.accentColor.opacity(0.07) : .clear)
+        .overlay(alignment: .leading) {
+            if isSelected {
+                Rectangle()
+                    .fill(Color.accentColor)
+                    .frame(width: 3)
+            }
+        }
     }
 
     private var priorityColor: Color {
@@ -312,23 +320,5 @@ private struct ReminderTaskRow: View {
         case .low:    return .blue
         case nil:     return .gray
         }
-    }
-}
-
-// MARK: - Snooze Chip
-
-private struct SnoozeChip: View {
-    let label: String
-    let action: () -> Void
-    init(_ label: String, action: @escaping () -> Void) {
-        self.label = label
-        self.action = action
-    }
-    var body: some View {
-        Button(action: action) {
-            Text(label).frame(maxWidth: .infinity)
-        }
-        .buttonStyle(.bordered)
-        .controlSize(.regular)
     }
 }
