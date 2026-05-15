@@ -45,6 +45,13 @@ private struct ReviewTaskRow: View {
     let task: FocusTask
     let onEdit: () -> Void
 
+    private static let dateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "de_DE")
+        f.dateFormat = "dd.MM.yyyy"
+        return f
+    }()
+
     var body: some View {
         HStack(spacing: 0) {
             Image(systemName: "arrow.clockwise.circle.fill")
@@ -56,7 +63,7 @@ private struct ReviewTaskRow: View {
             VStack(alignment: .leading, spacing: 3) {
                 Text(task.title).font(.body)
                 if let deadline = task.deadline {
-                    Text(deadline, format: .dateTime.day(.twoDigits).month().year())
+                    Text(Self.dateFormatter.string(from: deadline))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
