@@ -286,7 +286,7 @@ struct ReminderPanelView: View {
                         .padding(.vertical, 6)
                 }
                 .menuStyle(.borderlessButton)
-                .menuIndicatorVisibility(.hidden)
+                .menuIndicator(.hidden)
             }
             .background(.quaternary.opacity(0.6))
             .clipShape(RoundedRectangle(cornerRadius: 6))
