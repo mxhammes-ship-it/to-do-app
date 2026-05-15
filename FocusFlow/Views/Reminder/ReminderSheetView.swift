@@ -1,7 +1,7 @@
 import AppKit
 import SwiftUI
 
-// MARK: - Reminder Center (zentrale Verwaltung aller aktiven Reminders)
+// MARK: - Reminder Center
 
 @MainActor
 final class ReminderCenter: ObservableObject {
@@ -18,12 +18,16 @@ final class ReminderCenter: ObservableObject {
         } else {
             activeTasks.append(task)
         }
-        ReminderWindowController.showIfNeeded()
+        ReminderWindowController.showIfNeeded(taskCount: activeTasks.count)
     }
 
     func dismiss(taskID: UUID) {
         activeTasks.removeAll { $0.id == taskID }
-        if activeTasks.isEmpty { ReminderWindowController.close() }
+        if activeTasks.isEmpty {
+            ReminderWindowController.close()
+        } else {
+            ReminderWindowController.resize(for: activeTasks.count)
+        }
     }
 
     func dismissAll() {
@@ -70,10 +74,11 @@ final class ReminderCenter: ObservableObject {
 final class ReminderWindowController {
     private static var panel: NSPanel?
 
-    static func showIfNeeded() {
+    static func showIfNeeded(taskCount: Int) {
         if panel == nil {
-            create()
+            create(taskCount: taskCount)
         } else {
+            resize(for: taskCount)
             panel?.orderFrontRegardless()
         }
     }
@@ -83,11 +88,32 @@ final class ReminderWindowController {
         panel = nil
     }
 
-    private static func create() {
+    static func resize(for taskCount: Int) {
+        guard let panel else { return }
+        let newSize = CGSize(width: 360, height: panelHeight(for: taskCount))
+        panel.setContentSize(newSize)
+        if let screen = NSScreen.main {
+            let origin = NSPoint(
+                x: screen.visibleFrame.maxX - newSize.width - 20,
+                y: screen.visibleFrame.maxY - newSize.height - 20
+            )
+            panel.setFrameOrigin(origin)
+        }
+    }
+
+    private static func panelHeight(for taskCount: Int) -> CGFloat {
+        switch taskCount {
+        case 1:  return 200
+        case 2:  return 248
+        default: return 290
+        }
+    }
+
+    private static func create(taskCount: Int) {
         let view = ReminderPanelView()
             .environmentObject(ReminderCenter.shared)
         let hosting = NSHostingController(rootView: view)
-        let size = CGSize(width: 360, height: 290)
+        let size = CGSize(width: 360, height: panelHeight(for: taskCount))
 
         let p = NSPanel(
             contentRect: NSRect(origin: .zero, size: size),
@@ -106,9 +132,11 @@ final class ReminderWindowController {
         p.setContentSize(size)
 
         if let screen = NSScreen.main {
-            let x = screen.visibleFrame.maxX - size.width - 20
-            let y = screen.visibleFrame.maxY - size.height - 20
-            p.setFrameOrigin(NSPoint(x: x, y: y))
+            let origin = NSPoint(
+                x: screen.visibleFrame.maxX - size.width - 20,
+                y: screen.visibleFrame.maxY - size.height - 20
+            )
+            p.setFrameOrigin(origin)
         }
         p.orderFrontRegardless()
         panel = p
@@ -194,30 +222,43 @@ struct ReminderPanelView: View {
 
     // MARK: Task List
 
+    @ViewBuilder
     private var taskList: some View {
-        ScrollView {
-            LazyVStack(spacing: 0) {
+        if center.activeTasks.count <= 2 {
+            // Exact fit – kein überschüssiger Leerraum
+            VStack(spacing: 0) {
                 ForEach(center.activeTasks) { task in
-                    ReminderTaskRow(
-                        task: task,
-                        isSelected: task.id == selectedTask?.id
-                    )
-                    .contentShape(Rectangle())
-                    .onTapGesture { selectedID = task.id }
+                    ReminderTaskRow(task: task, isSelected: task.id == selectedTask?.id)
+                        .contentShape(Rectangle())
+                        .onTapGesture { selectedID = task.id }
                     if task.id != center.activeTasks.last?.id {
                         Divider().padding(.leading, 36).opacity(0.4)
                     }
                 }
             }
+        } else {
+            // Ab 3 Tasks: feste Höhe mit Scroll
+            ScrollView {
+                LazyVStack(spacing: 0) {
+                    ForEach(center.activeTasks) { task in
+                        ReminderTaskRow(task: task, isSelected: task.id == selectedTask?.id)
+                            .contentShape(Rectangle())
+                            .onTapGesture { selectedID = task.id }
+                        if task.id != center.activeTasks.last?.id {
+                            Divider().padding(.leading, 36).opacity(0.4)
+                        }
+                    }
+                }
+            }
+            .frame(height: 138)
         }
-        .frame(maxHeight: min(CGFloat(center.activeTasks.count) * 48 + 8, 160))
     }
 
     // MARK: Action Bar
 
     private func actionBar(for task: FocusTask) -> some View {
         VStack(spacing: 8) {
-            // Split-Snooze: linke Hälfte = Default 15 Min, rechte Hälfte = Dropdown
+            // Split-Snooze: Klick = 15 Min, Pfeil = Dropdown
             HStack(spacing: 0) {
                 Button("Snooze") {
                     center.snooze(taskID: task.id, minutes: 15)
@@ -245,12 +286,12 @@ struct ReminderPanelView: View {
                         .padding(.vertical, 6)
                 }
                 .menuStyle(.borderlessButton)
+                .menuIndicatorVisibility(.hidden)
             }
             .background(.quaternary.opacity(0.6))
             .clipShape(RoundedRectangle(cornerRadius: 6))
             .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.secondary.opacity(0.2), lineWidth: 0.5))
 
-            // Dismiss + Complete
             HStack(spacing: 8) {
                 Button("Schliessen") { center.dismiss(taskID: task.id) }
                     .buttonStyle(.bordered)
