@@ -26,10 +26,6 @@ struct ContentView: View {
             TaskFormView(task: taskToEdit)
                 .environmentObject(taskStore)
         }
-        .sheet(item: $taskStore.activeReminderTask) { task in
-            ReminderSheetView(task: task)
-                .environmentObject(taskStore)
-        }
         .onReceive(NotificationCenter.default.publisher(for: .newTaskRequested)) { _ in
             taskToEdit = nil
             showingTaskForm = true

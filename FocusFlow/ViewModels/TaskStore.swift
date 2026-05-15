@@ -5,7 +5,6 @@ import Combine
 class TaskStore: ObservableObject {
     @Published var tasks: [FocusTask] = []
     @Published var projects: [Project] = []
-    @Published var activeReminderTask: FocusTask? = nil
 
     private let persistence = PersistenceService()
 
@@ -159,7 +158,7 @@ class TaskStore: ObservableObject {
         ReminderService.shared.onReminderFired = { [weak self] taskID in
             guard let self else { return }
             if let task = self.tasks.first(where: { $0.id == taskID }) {
-                self.activeReminderTask = task
+                ReminderWindowController.present(task: task, store: self)
             }
         }
     }
