@@ -86,6 +86,7 @@ final class ReminderWindowController {
     private static func create() {
         let view = ReminderPanelView()
             .environmentObject(ReminderCenter.shared)
+            .preferredColorScheme(.dark)
         let hosting = NSHostingController(rootView: view)
         let size = CGSize(width: 360, height: 480)
 

@@ -33,6 +33,7 @@ struct CheckCircle: View {
                         .transition(.scale(scale: 0.6).combined(with: .opacity))
                 }
             }
+            .contentShape(Circle())
             .animation(.spring(response: 0.15, dampingFraction: 0.85), value: isCompleted)
             .frame(width: 36, height: 36)
         }
