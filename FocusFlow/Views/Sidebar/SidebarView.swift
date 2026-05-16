@@ -36,6 +36,8 @@ private struct SidebarRow: View {
     let badge: Int?
     let section: SidebarSection
 
+    @State private var isHovered = false
+
     var body: some View {
         Label {
             HStack {
@@ -45,10 +47,10 @@ private struct SidebarRow: View {
                     Text("\(badge)")
                         .font(.caption2)
                         .fontWeight(.semibold)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.textSecondary)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
-                        .background(Color.surface2, in: Capsule())
+                        .background(Color.surface3, in: Capsule())
                 }
             }
         } icon: {
@@ -56,5 +58,7 @@ private struct SidebarRow: View {
                 .foregroundStyle(color)
         }
         .tag(section)
+        .listRowBackground(isHovered ? Color.surface1 : Color.clear)
+        .onHover { isHovered = $0 }
     }
 }
