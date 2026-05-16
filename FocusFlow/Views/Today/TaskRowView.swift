@@ -6,6 +6,7 @@ struct TaskRowView: View {
     let onEdit: () -> Void
 
     @State private var completed = false
+    @State private var isHovered = false
 
     var body: some View {
         HStack(spacing: 0) {
@@ -15,28 +16,27 @@ struct TaskRowView: View {
             // Content
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 6) {
+                    if let priority = task.priority {
+                        Circle()
+                            .fill(priorityDotColor(priority))
+                            .frame(width: 6, height: 6)
+                    }
+
                     Text(task.title)
                         .font(.body)
                         .strikethrough(completed)
                         .foregroundStyle(completed ? Color.textSecondary : Color.textPrimary)
                         .animation(.easeInOut(duration: 0.2), value: completed)
-
-                    if task.priority == .high {
-                        Image(systemName: "exclamationmark")
-                            .font(.caption)
-                            .foregroundStyle(Color.danger)
-                    }
                 }
 
                 HStack(spacing: 10) {
                     if let deadline = task.deadline {
-                        Label {
-                            Text(deadline, format: .dateTime.day().month())
-                        } icon: {
-                            Image(systemName: "calendar")
-                        }
-                        .font(.caption)
-                        .foregroundStyle(isOverdue(deadline) ? Color.danger : Color.textSecondary)
+                        Text(deadline, format: .dateTime.day().month())
+                            .font(.caption)
+                            .foregroundStyle(isOverdue(deadline) ? Color.danger : Color.calBlue)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(isOverdue(deadline) ? Color.warnBg : Color.calBg, in: Capsule())
                     }
 
                     if let project = taskStore.project(for: task) {
@@ -73,11 +73,21 @@ struct TaskRowView: View {
 
             Spacer()
         }
+        .background(isHovered ? Color.surface1 : .clear, in: RoundedRectangle(cornerRadius: 6))
         .contentShape(Rectangle())
+        .onHover { isHovered = $0 }
     }
 
     private func isOverdue(_ date: Date) -> Bool {
         date < Calendar.current.startOfDay(for: Date())
+    }
+
+    private func priorityDotColor(_ priority: TaskPriority) -> Color {
+        switch priority {
+        case .high:   return Color.priorityHigh
+        case .medium: return Color.priorityMedium
+        case .low:    return Color.priorityLow
+        }
     }
 
     private func triggerCompletion() {
