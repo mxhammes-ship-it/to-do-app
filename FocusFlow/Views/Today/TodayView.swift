@@ -34,15 +34,10 @@ struct TodayView: View {
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
-                Button {
+                GlassButton(systemImage: "plus", variant: .primary) {
                     taskToEdit = nil
                     showingTaskForm = true
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.title2)
-                        .foregroundStyle(.blue)
                 }
-                .buttonStyle(.plain)
             }
             .padding(.horizontal, 24)
             .padding(.top, 24)

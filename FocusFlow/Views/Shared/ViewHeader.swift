@@ -25,12 +25,7 @@ struct ViewHeader: View {
                     }
                 }
                 Spacer()
-                Button(action: onAdd) {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.title2)
-                        .foregroundStyle(.blue)
-                }
-                .buttonStyle(.plain)
+                GlassButton(systemImage: "plus", variant: .primary, action: onAdd)
             }
             .padding(.horizontal, 24)
             .padding(.top, 24)

@@ -1,5 +1,4 @@
 import SwiftUI
-import AppKit
 
 struct TaskRowView: View {
     @EnvironmentObject var taskStore: TaskStore
@@ -7,31 +6,11 @@ struct TaskRowView: View {
     let onEdit: () -> Void
 
     @State private var completed = false
-    @State private var checkScale: CGFloat = 1.0
 
     var body: some View {
         HStack(spacing: 0) {
-            // Completion button
-            Button { triggerCompletion() } label: {
-                ZStack {
-                    if completed {
-                        Circle()
-                            .fill(priorityColor)
-                            .frame(width: 20, height: 20)
-                        Image(systemName: "checkmark")
-                            .font(.system(size: 10, weight: .bold))
-                            .foregroundStyle(.white)
-                            .scaleEffect(checkScale)
-                    } else {
-                        Circle()
-                            .strokeBorder(priorityColor.opacity(0.7), lineWidth: 1.5)
-                            .frame(width: 20, height: 20)
-                    }
-                }
-                .frame(width: 36, height: 36)
-            }
-            .buttonStyle(.plain)
-            .padding(.leading, 12)
+            CheckCircle(isCompleted: completed, action: triggerCompletion)
+                .padding(.leading, Spacing.rowLeading)
 
             // Content
             VStack(alignment: .leading, spacing: 4) {
@@ -97,29 +76,13 @@ struct TaskRowView: View {
         .contentShape(Rectangle())
     }
 
-    private var priorityColor: Color {
-        switch task.priority {
-        case .high:   return .red
-        case .medium: return .orange
-        case .low:    return .blue
-        case nil:     return Color(nsColor: .tertiaryLabelColor)
-        }
-    }
-
     private func isOverdue(_ date: Date) -> Bool {
         date < Calendar.current.startOfDay(for: Date())
     }
 
     private func triggerCompletion() {
-        withAnimation(.spring(response: 0.25, dampingFraction: 0.6)) {
-            completed = true
-            checkScale = 1.3
-        }
-        withAnimation(.spring(response: 0.2, dampingFraction: 0.8).delay(0.15)) {
-            checkScale = 1.0
-        }
-        NSSound(named: "Hero")?.play()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.55) {
+        completed = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             taskStore.completeTask(task)
         }
     }

@@ -30,6 +30,9 @@
 		AA000000000000000000E015 /* Color+Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F016 /* Color+Tokens.swift */; };
 		AA000000000000000000E016 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F017 /* Spacing.swift */; };
 		AA000000000000000000E017 /* AuroraWallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F018 /* AuroraWallpaper.swift */; };
+		AA000000000000000000E018 /* CheckCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F019 /* CheckCircle.swift */; };
+		AA000000000000000000E019 /* SectionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F01A /* SectionLabel.swift */; };
+		AA000000000000000000E01A /* GlassButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F01B /* GlassButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +60,9 @@
 		AA000000000000000000F016 /* Color+Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Tokens.swift"; sourceTree = "<group>"; };
 		AA000000000000000000F017 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		AA000000000000000000F018 /* AuroraWallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuroraWallpaper.swift; sourceTree = "<group>"; };
+		AA000000000000000000F019 /* CheckCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckCircle.swift; sourceTree = "<group>"; };
+		AA000000000000000000F01A /* SectionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionLabel.swift; sourceTree = "<group>"; };
+		AA000000000000000000F01B /* GlassButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassButton.swift; sourceTree = "<group>"; };
 		AA000000000000000000000E /* FocusFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FocusFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -232,7 +238,10 @@
 			isa = PBXGroup;
 			children = (
 				AA000000000000000000F018 /* AuroraWallpaper.swift */,
+				AA000000000000000000F019 /* CheckCircle.swift */,
 				AA000000000000000000F016 /* Color+Tokens.swift */,
+				AA000000000000000000F01B /* GlassButton.swift */,
+				AA000000000000000000F01A /* SectionLabel.swift */,
 				AA000000000000000000F017 /* Spacing.swift */,
 			);
 			path = DesignSystem;
@@ -330,6 +339,9 @@
 				AA000000000000000000E015 /* Color+Tokens.swift in Sources */,
 				AA000000000000000000E016 /* Spacing.swift in Sources */,
 				AA000000000000000000E017 /* AuroraWallpaper.swift in Sources */,
+				AA000000000000000000E018 /* CheckCircle.swift in Sources */,
+				AA000000000000000000E019 /* SectionLabel.swift in Sources */,
+				AA000000000000000000E01A /* GlassButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

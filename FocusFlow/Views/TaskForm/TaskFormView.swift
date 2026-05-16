@@ -123,8 +123,7 @@ struct TaskFormView: View {
                     // Tags
                     FormSection {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Tags")
-                                .font(.caption).foregroundStyle(.secondary).textCase(.uppercase)
+                            SectionLabel(text: "Tags")
                             TextField("z.B. Research, Meeting (kommagetrennt)", text: $tagsText)
                                 .textFieldStyle(.plain).font(.callout)
                         }

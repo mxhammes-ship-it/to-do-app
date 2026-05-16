@@ -47,13 +47,9 @@ struct UpcomingView: View {
                                     Divider().padding(.leading, 56)
                                 }
                             } header: {
-                                Text(section)
-                                    .font(.caption)
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(.secondary)
-                                    .textCase(.uppercase)
-                                    .padding(.horizontal, 24)
-                                    .padding(.vertical, 8)
+                                SectionLabel(text: section)
+                                    .padding(.horizontal, Spacing.contentH)
+                                    .padding(.vertical, Spacing.sm)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .background(Color.windowBg)
                             }
