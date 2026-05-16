@@ -184,6 +184,14 @@ FocusFlow.xcodeproj/
 FocusFlow/
 ├── FocusFlowApp.swift
 ├── ContentView.swift
+├── DesignSystem/
+│   ├── AuroraWallpaper.swift
+│   ├── CheckCircle.swift
+│   ├── Color+Tokens.swift
+│   ├── DividerLine.swift
+│   ├── GlassButton.swift
+│   ├── SectionLabel.swift
+│   └── Spacing.swift
 ├── Models/
 │   ├── Task.swift
 │   └── Project.swift
@@ -209,6 +217,15 @@ FocusFlow/
 ---
 
 ## Wichtige Komponenten
+
+### DesignSystem — Atoms (nicht ändern ohne Designsystem-Kontext)
+- Color+Tokens.swift — Single Source of Truth für alle Farben
+- Spacing.swift — alle Abstands-Tokens
+- CheckCircle — Checkbox mit Completion-Animation (triggerCompletion-safe)
+- GlassButton — Button variant: .primary / .secondary
+- SectionLabel — Abschnitts-Header, smallcaps, textTertiary
+- DividerLine — 0.5px Trennlinie, divider1, rowIndent
+- AuroraWallpaper — Hintergrundgradient (windowBg → wallBottom)
 
 ### TaskStore
 Single Source of Truth.
@@ -252,6 +269,14 @@ JSON Load/Save.
 - Completion Animation + Sound
 - ⌘N Shortcut für neue Aufgabe
 - Sample-Daten beim Erststart
+- Aurora DesignSystem (Color+Tokens, Spacing, Atoms)
+- Dark-Mode-only (preferredColorScheme(.dark))
+- Aurora-Wallpaper-Hintergrund
+- CheckCircle, GlassButton, SectionLabel, DividerLine als wiederverwendbare Atoms
+- Design-Token-Migration aller Views (Schritte 4–6C)
+- TaskRow: Priority-Dot, Deadline-Chip, Hover-State
+- Sidebar: Hover-State, Token-alignte Badges
+- Alle Listen: DividerLine + Spacing.scrollBottom
 
 ---
 
@@ -260,11 +285,17 @@ JSON Load/Save.
 Der MVP ist funktional abgeschlossen.
 
 Aktueller Fokus:
-- Stabilisierung
-- UX-Polish
-- kleine Produktivitätsverbesserungen
-- Reduktion visueller Unruhe
-- Vorbereitung für tägliche echte Nutzung
+Design-Migration abgeschlossen bis Schritt 6C.
+Unmittelbar offen (Design):
+- Token-Finish: 5x .foregroundStyle(.secondary) → Color.textSecondary
+  (TodayView:34, ViewHeader:24, InboxView:59+65, ProjectsView:139)
+- TaskFormView Visual-Polish (bewusst aus 6A–6C ausgeschlossen)
+- EmptyStateView Token-Konsistenz prüfen
+Danach (Produkt):
+- Drag & Drop zwischen Sidebar-Sektionen
+- Kontextmenüs auf Task-Rows
+- App-Icon
+- Login-Item für Auto-Start
 
 Aktuell keine Priorität:
 - Cloud
@@ -321,9 +352,9 @@ Sprache:
 
 ### Listen-Pattern
 - LazyVStack
-- Divider
+- DividerLine (DesignSystem-Atom, 0.5px, Color.divider1, rowIndent 56px)
 - keine Borders
-- klare Einrückungen
+- Scroll-Listen haben .padding(.bottom, Spacing.scrollBottom) = 80px
 
 ### Empty States
 Eigene EmptyStateView:
@@ -332,10 +363,18 @@ Eigene EmptyStateView:
 - Sub-Message
 
 ### Farben
-Sehr zurückhaltend:
-- Akzent nur bei Prioritäten
-- Projekt-Farbpunkte
-- keine bunten Hintergründe
+Aurora Dark-Mode-only. Token-System in Color+Tokens.swift.
+Alle Farbwerte als statische Color-Extensions. Keine Literalfarben in Views.
+Zentrale Tokens:
+- surface1/2/3 — Hover, Badge, Overlay-Hintergründe
+- divider1/2 — Trennlinien
+- textPrimary / textSecondary / textTertiary / textQuaternary — Text-Hierarchie
+- appAccent / appAccentBg — Primär-Akzent (Forest Green)
+- calBlue / calBg — Deadline-Chips
+- warnOrange / warnBg — Fällige Erinnerungen, Review-Icon
+- danger — Overdue, high priority
+- priorityHigh / priorityMedium / priorityLow — Priority-Dots
+- windowBg / wallTop / wallBottom — Hintergrund-Ebenen
 
 ### Interaction Pattern
 - ganze Task-Row klickbar
@@ -366,6 +405,10 @@ Vermeiden:
 - keine direkten Persistence-Calls aus Views
 - TaskStore ist @MainActor
 - Reusable Components in Views/Shared
+- DesignSystem-Atoms in FocusFlow/DesignSystem/
+- Keine Literal-Farbwerte in Views — immer Color-Token verwenden
+- Keine Literal-Abstände ausser in DesignSystem selbst — Spacing-Enum verwenden
+- Kein System-Divider() in Listen — DividerLine() verwenden
 
 ### Naming
 - deutsche User-Facing-Strings
@@ -390,13 +433,13 @@ contentViewController immer vor setContentSize setzen.
 ## Git / Workflow
 
 - Branch:
-  claude/macos-productivity-app-5NlpB
+  claude/review-context-codebase-XZQfG
 
 - Remote:
   mxhammes-ship-it/to-do-app
 
 - Letzter Commit:
-  6cf0eb3
+  a0013a0 (Schritt 6C: Sidebar Item Polish)
 
 Projekt öffnen:
 
