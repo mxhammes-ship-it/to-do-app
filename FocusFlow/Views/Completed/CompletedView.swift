@@ -49,7 +49,7 @@ struct CompletedView: View {
                             Section {
                                 ForEach(tasks) { task in
                                     CompletedTaskRow(task: task)
-                                    Divider().padding(.leading, 56)
+                                    DividerLine().padding(.leading, Spacing.rowIndent)
                                 }
                             } header: {
                                 SectionLabel(text: day)
@@ -60,7 +60,7 @@ struct CompletedView: View {
                             }
                         }
                     }
-                    .padding(.bottom, 24)
+                    .padding(.bottom, Spacing.scrollBottom)
                 }
             }
         }

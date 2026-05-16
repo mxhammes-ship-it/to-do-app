@@ -33,6 +33,7 @@
 		AA000000000000000000E018 /* CheckCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F019 /* CheckCircle.swift */; };
 		AA000000000000000000E019 /* SectionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F01A /* SectionLabel.swift */; };
 		AA000000000000000000E01A /* GlassButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F01B /* GlassButton.swift */; };
+		AA000000000000000000E01B /* DividerLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F01C /* DividerLine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,7 @@
 		AA000000000000000000F019 /* CheckCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckCircle.swift; sourceTree = "<group>"; };
 		AA000000000000000000F01A /* SectionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionLabel.swift; sourceTree = "<group>"; };
 		AA000000000000000000F01B /* GlassButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassButton.swift; sourceTree = "<group>"; };
+		AA000000000000000000F01C /* DividerLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerLine.swift; sourceTree = "<group>"; };
 		AA000000000000000000000E /* FocusFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FocusFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -241,6 +243,7 @@
 				AA000000000000000000F019 /* CheckCircle.swift */,
 				AA000000000000000000F016 /* Color+Tokens.swift */,
 				AA000000000000000000F01B /* GlassButton.swift */,
+				AA000000000000000000F01C /* DividerLine.swift */,
 				AA000000000000000000F01A /* SectionLabel.swift */,
 				AA000000000000000000F017 /* Spacing.swift */,
 			);
@@ -342,6 +345,7 @@
 				AA000000000000000000E018 /* CheckCircle.swift in Sources */,
 				AA000000000000000000E019 /* SectionLabel.swift in Sources */,
 				AA000000000000000000E01A /* GlassButton.swift in Sources */,
+				AA000000000000000000E01B /* DividerLine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

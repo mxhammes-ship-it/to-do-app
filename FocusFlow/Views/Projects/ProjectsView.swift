@@ -22,10 +22,10 @@ struct ProjectsView: View {
                         ForEach(taskStore.projects) { project in
                             ProjectRow(project: project, taskCount: taskStore.tasksForProject(project).count)
                                 .onTapGesture { selectedProject = project }
-                            Divider().padding(.leading, 56)
+                            DividerLine().padding(.leading, Spacing.rowIndent)
                         }
                     }
-                    .padding(.bottom, 24)
+                    .padding(.bottom, Spacing.scrollBottom)
                 }
             }
         }
@@ -113,7 +113,7 @@ struct ProjectDetailView: View {
                                 showingTaskForm = true
                                 dismiss()
                             }
-                            Divider().padding(.leading, 56)
+                            DividerLine().padding(.leading, Spacing.rowIndent)
                         }
                     }
                 }

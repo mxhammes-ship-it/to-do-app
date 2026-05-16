@@ -27,10 +27,10 @@ struct InboxView: View {
                                 taskToEdit = task
                                 showingTaskForm = true
                             }
-                            Divider().padding(.leading, 56)
+                            DividerLine().padding(.leading, Spacing.rowIndent)
                         }
                     }
-                    .padding(.bottom, 24)
+                    .padding(.bottom, Spacing.scrollBottom)
                 }
             }
         }

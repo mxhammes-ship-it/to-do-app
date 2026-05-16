@@ -44,7 +44,7 @@ struct UpcomingView: View {
                             Section {
                                 ForEach(tasks) { task in
                                     TaskRowView(task: task) { taskToEdit = task; showingTaskForm = true }
-                                    Divider().padding(.leading, 56)
+                                    DividerLine().padding(.leading, Spacing.rowIndent)
                                 }
                             } header: {
                                 SectionLabel(text: section)
@@ -55,7 +55,7 @@ struct UpcomingView: View {
                             }
                         }
                     }
-                    .padding(.bottom, 24)
+                    .padding(.bottom, Spacing.scrollBottom)
                 }
             }
         }
