@@ -64,7 +64,10 @@ Sidebar-Navigation:
 - Heute
 - Inbox
 - Demnächst
-- Projekte
+- Projekte (Abschnittstitel; darunter alle Projekte direkt verlinkt)
+  - [Projektname 1]
+  - [Projektname 2]
+  - + Neues Projekt (Button im Abschnittsheader)
 - Review
 - Erledigt
 
@@ -94,7 +97,10 @@ Zentrale Hauptansicht mit heutigen Aufgaben, Prioritäten, fälligen Remindern u
 
 ### Inbox
 Schnellerfassung neuer Aufgaben. Ziel: Inbox Zero.
-Tasks lassen sich mit einem Klick nach „Heute" verschieben oder editieren.
+Tasks lassen sich mit einem Klick nach „Heute" verschieben.
+Klick auf die Task-Row öffnet den Edit-Dialog (kein separates Icon).
+Quick Entry Bar: Permanentes Eingabefeld am unteren Rand aller Views.
+Text eingeben + Enter → Task landet sofort in Inbox. Sichtbar in jeder Ansicht.
 
 ### Review-Logik
 Tasks mit Status `today`, die nicht erledigt wurden, werden beim nächsten Tageswechsel automatisch auf Status `review` verschoben.
@@ -115,19 +121,22 @@ Outlook-Style:
 - Snooze-Buttons wirken auf den ausgewählten Reminder
 
 Snooze-Optionen:
-- 15 Min
-- 30 Min
-- 1 Std
-- 2 Std
-- 4 Std
-- Morgen früh (8:00 Uhr)
+Snooze: Split-Button (Klick = 15 Min, Pfeil = Dropdown)
+Dropdown-Optionen:
+- 15 Min / 30 Min / 1 Std / 2 Std / 4 Std
+- Trennlinie
+- 1 Tag / 2 Tage / 1 Woche
+
+Schliessen-Verhalten: reminderDate = nil (permanent), Task bleibt in Listen.
 
 ### Gamification
 Beim Abschliessen einer Task:
-- dezente Animation
-- Kreis füllt sich
-- Checkmark mit Spring-Animation
-- NSSound „Hero"
+- Kreis füllt sich farbig (Prioritätsfarbe)
+- Spring-Bounce: circleScale 1.0 → 1.25 → 1.0
+- Ripple-Ring: expandiert auf 1.9× und verblasst (easeOut, 0.45s)
+- NSSound „Tink" (klar, leicht)
+- Task verschwindet nach 0.7s aus der Liste
+- Doppelklick durch guard !completed abgesichert
 
 Keine kindliche Gamification.
 
@@ -224,6 +233,12 @@ Verantwortlich für:
 ### ReminderCenter
 Verwaltet aktive Reminder im Overlay.
 
+### ReminderCenter.clearAndDismiss()
+Neues Verhalten seit UX-Iteration: „Schliessen" im Overlay entfernt den
+Reminder permanent (reminderDate = nil via store.updateTask). Der Task
+bleibt erhalten und erscheint weiterhin in allen Listen. Snooze hingegen
+setzt reminderDate auf einen neuen Zeitpunkt.
+
 ### ReminderWindowController
 Verwaltet ein einzelnes statisches NSPanel.
 
@@ -232,6 +247,11 @@ Timer-basiertes Reminder-Scheduling.
 
 ### PersistenceService
 JSON Load/Save.
+
+### SidebarItem
+Navigations-Typ in ContentView. Ersetzt SidebarSection? als Selection-Binding.
+enum SidebarItem { case section(SidebarSection); case project(UUID) }
+SidebarSection hat keinen .projects-Case mehr.
 
 ---
 
@@ -252,6 +272,11 @@ JSON Load/Save.
 - Completion Animation + Sound
 - ⌘N Shortcut für neue Aufgabe
 - Sample-Daten beim Erststart
+- Quick Entry Bar (permanentes Eingabefeld am unteren Rand aller Views)
+- Projekte direkt in Sidebar verlinkt (SidebarItem-Enum)
+- Reminder „Schliessen" entfernt Reminder permanent (Task bleibt erhalten)
+- Completion: Ripple-Ring-Animation + Spring-Bounce + Sound „Tink"
+- macOS click-through Fix für Completion-Kreis (.contentShape)
 
 ---
 
@@ -338,8 +363,11 @@ Sehr zurückhaltend:
 - keine bunten Hintergründe
 
 ### Interaction Pattern
-- ganze Task-Row klickbar
-- Completion-Kreis separater Button
+- Klick auf Task-Row (Content-Bereich) → Edit-Dialog
+- Klick auf Completion-Kreis → Task abschliessen
+- Kein zusätzliches Stift-Icon oder Edit-Button in Rows
+- Quick Entry Bar immer sichtbar (unterer Rand, Enter zum Speichern)
+- Sidebar-Projekte: direkte Navigation, kein Zwischen-Sheet
 
 ### Reminder Overlay
 - präsent aber dezent
@@ -387,19 +415,37 @@ contentViewController immer vor setContentSize setzen.
 
 ---
 
+## macOS-spezifische Coding-Regeln
+
+### macOS Hit-Testing
+Transparente View-Bereiche leiten Klicks durch ("click-through"). ZStack-
+Elemente mit strokeBorder-Kreisen o.Ä. müssen `.contentShape(Rectangle())`
+erhalten, damit der volle Frame anklickbar ist — auch der transparente
+Innenbereich. Ohne contentShape reagiert nur der sichtbare Strich auf Klicks.
+
+Pflichtregel für alle interaktiven Custom-Views auf macOS:
+- `.contentShape(Rectangle())` (oder `.contentShape(Circle())`) setzen
+- Gilt besonders für Completion-Circles, Icons und Custom-Buttons
+
+### Datums-/Zeitformatierung
+- `.datePickerStyle(.field)` für Datumseingabe nutzen (nicht .compact — ignoriert Locale)
+- `DateFormatter` mit explizitem `dateFormat` statt `Date.FormatStyle` für numerische
+  Datumsdarstellung in German Locale (FormatStyle produziert "16. 5.2026" statt "16.05.2026")
+- Reminder-Default: `Date()` (aktuelle Systemzeit)
+
+---
+
 ## Git / Workflow
 
-- Branch:
-  claude/macos-productivity-app-5NlpB
+- Branch: claude/review-project-context-9FRzL
 
 - Remote:
   mxhammes-ship-it/to-do-app
 
 - Letzter Commit:
-  6cf0eb3
+  ed42dcc
 
 Projekt öffnen:
-
 open FocusFlow.xcodeproj
 
 Build:
