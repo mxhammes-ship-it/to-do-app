@@ -53,7 +53,7 @@ struct TaskFormView: View {
                         Divider()
                         TextField("Notizen (optional)", text: $notes, axis: .vertical)
                             .font(.callout)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.textSecondary)
                             .textFieldStyle(.plain)
                             .lineLimit(2...6)
                     }
@@ -191,7 +191,7 @@ private struct FormSection<Content: View>: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) { content }
             .padding()
-            .background(.quaternary.opacity(0.4), in: RoundedRectangle(cornerRadius: 10))
+            .background(Color.surface1, in: RoundedRectangle(cornerRadius: 10))
     }
 }
 

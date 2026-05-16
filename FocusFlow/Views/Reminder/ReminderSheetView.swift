@@ -162,7 +162,7 @@ struct ReminderPanelView: View {
     private var header: some View {
         HStack(spacing: 8) {
             Image(systemName: "bell.fill")
-                .foregroundStyle(.orange)
+                .foregroundStyle(Color.warnOrange)
                 .font(.subheadline)
             Text(center.activeTasks.count == 1
                  ? "1 Reminder"
@@ -174,7 +174,7 @@ struct ReminderPanelView: View {
                 Button("Alle schliessen") { center.dismissAll() }
                     .buttonStyle(.plain)
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.textSecondary)
             }
             Button {
                 if let id = selectedTask?.id {
@@ -185,9 +185,9 @@ struct ReminderPanelView: View {
             } label: {
                 Image(systemName: "xmark")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.textSecondary)
                     .frame(width: 20, height: 20)
-                    .background(.quaternary, in: Circle())
+                    .background(Color.surface2, in: Circle())
             }
             .buttonStyle(.plain)
         }
@@ -222,7 +222,7 @@ struct ReminderPanelView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Erinnere mich in …")
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.textSecondary)
 
             HStack(spacing: 6) {
                 SnoozeChip("15 Min") { center.snooze(taskID: task.id, minutes: 15) }
@@ -251,13 +251,10 @@ struct ReminderPanelView: View {
         HStack(spacing: 8) {
             Button("Schliessen") { center.dismiss(taskID: task.id) }
                 .buttonStyle(.bordered)
-                .frame(maxWidth: .infinity)
-            Button { center.complete(taskID: task.id) } label: {
-                Label("Erledigt", systemImage: "checkmark")
-                    .frame(maxWidth: .infinity)
+            Spacer()
+            GlassButton(systemImage: "checkmark", label: "Erledigt", variant: .primary) {
+                center.complete(taskID: task.id)
             }
-            .buttonStyle(.borderedProminent)
-            .tint(.green)
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 12)
@@ -285,12 +282,12 @@ private struct ReminderTaskRow: View {
                     if let deadline = task.deadline {
                         Text(deadline, format: .dateTime.day().month())
                             .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.textSecondary)
                     }
                     if let priority = task.priority {
                         Text(priority.displayName)
                             .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.textSecondary)
                     }
                 }
             }
@@ -298,20 +295,20 @@ private struct ReminderTaskRow: View {
             if isSelected {
                 Image(systemName: "chevron.right")
                     .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.textTertiary)
             }
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
-        .background(isSelected ? Color.accentColor.opacity(0.12) : .clear)
+        .background(isSelected ? Color.appAccentBg : .clear)
     }
 
     private var priorityColor: Color {
         switch task.priority {
-        case .high:   return .red
-        case .medium: return .orange
-        case .low:    return .blue
-        case nil:     return .gray
+        case .high:   return Color.priorityHigh
+        case .medium: return Color.priorityMedium
+        case .low:    return Color.priorityLow
+        case nil:     return Color.priorityNone
         }
     }
 }

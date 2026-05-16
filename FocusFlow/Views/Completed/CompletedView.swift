@@ -31,7 +31,7 @@ struct CompletedView: View {
                     Text("Erledigt")
                         .font(.largeTitle).fontWeight(.semibold)
                     Text("\(taskStore.completedTasks.count) erledigte Aufgaben")
-                        .font(.subheadline).foregroundStyle(.secondary)
+                        .font(.subheadline).foregroundStyle(Color.textSecondary)
                 }
                 Spacer()
             }
@@ -75,7 +75,7 @@ private struct CompletedTaskRow: View {
     var body: some View {
         HStack(spacing: 0) {
             Image(systemName: "checkmark.circle.fill")
-                .foregroundStyle(.green)
+                .foregroundStyle(Color.appAccent)
                 .font(.title3)
                 .frame(width: 36, height: 36)
                 .padding(.leading, 12)
@@ -83,12 +83,12 @@ private struct CompletedTaskRow: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(task.title)
                     .font(.body)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.textSecondary)
                     .strikethrough()
                 if let project = taskStore.project(for: task) {
                     HStack(spacing: 3) {
                         Circle().fill(project.colorName.color).frame(width: 5, height: 5)
-                        Text(project.name).font(.caption).foregroundStyle(.tertiary)
+                        Text(project.name).font(.caption).foregroundStyle(Color.textTertiary)
                     }
                 }
             }

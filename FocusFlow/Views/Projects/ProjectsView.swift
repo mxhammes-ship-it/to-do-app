@@ -61,12 +61,12 @@ private struct ProjectRow: View {
                 Text(project.name).font(.body)
                 Text("\(taskCount) offene Aufgaben")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.textSecondary)
             }
             Spacer()
             Image(systemName: "chevron.right")
                 .font(.caption)
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(Color.textTertiary)
                 .padding(.trailing, 16)
         }
         .padding(.vertical, 10)
