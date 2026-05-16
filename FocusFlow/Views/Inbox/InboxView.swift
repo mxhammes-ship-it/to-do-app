@@ -74,6 +74,7 @@ private struct InboxTaskRow: View {
             .scaleEffect(circleScale)
             .frame(width: 36, height: 36)
             .padding(.leading, 12)
+            .contentShape(Rectangle())
             .onTapGesture { triggerCompletion() }
 
             VStack(alignment: .leading, spacing: 3) {
