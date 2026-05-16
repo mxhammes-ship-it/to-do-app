@@ -7,9 +7,9 @@ struct SidebarView: View {
     var body: some View {
         List(selection: $selectedSection) {
             Section {
-                SidebarRow(icon: "sun.max.fill",       title: "Heute",      color: .orange, badge: taskStore.todayTasks.count,   section: .today)
-                SidebarRow(icon: "tray.fill",           title: "Inbox",      color: .blue,   badge: taskStore.inboxTasks.count,   section: .inbox)
-                SidebarRow(icon: "calendar",            title: "Demnächst",  color: .green,  badge: nil,                          section: .upcoming)
+                SidebarRow(icon: "sun.max.fill",       title: "Heute",      color: Color.warnOrange, badge: taskStore.todayTasks.count,   section: .today)
+                SidebarRow(icon: "tray.fill",           title: "Inbox",      color: Color.calBlue,    badge: taskStore.inboxTasks.count,   section: .inbox)
+                SidebarRow(icon: "calendar",            title: "Demnächst",  color: Color.appAccent,  badge: nil,                          section: .upcoming)
             }
 
             Section("Projekte") {
@@ -17,10 +17,10 @@ struct SidebarView: View {
             }
 
             Section("System") {
-                SidebarRow(icon: "arrow.clockwise",     title: "Review",     color: .red,
+                SidebarRow(icon: "arrow.clockwise",     title: "Review",     color: Color.danger,
                            badge: taskStore.reviewTasks.count > 0 ? taskStore.reviewTasks.count : nil,
                            section: .review)
-                SidebarRow(icon: "checkmark.circle.fill", title: "Erledigt", color: .gray,   badge: nil,                          section: .completed)
+                SidebarRow(icon: "checkmark.circle.fill", title: "Erledigt", color: Color.textTertiary, badge: nil, section: .completed)
             }
         }
         .listStyle(.sidebar)
@@ -48,7 +48,7 @@ private struct SidebarRow: View {
                         .foregroundStyle(.secondary)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
-                        .background(.quaternary, in: Capsule())
+                        .background(Color.surface2, in: Capsule())
                 }
             }
         } icon: {

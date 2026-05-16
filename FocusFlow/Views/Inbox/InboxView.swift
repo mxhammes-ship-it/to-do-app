@@ -46,7 +46,7 @@ private struct InboxTaskRow: View {
     var body: some View {
         HStack(spacing: 0) {
             Image(systemName: "circle")
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(Color.textQuaternary)
                 .frame(width: 36, height: 36)
                 .padding(.leading, 12)
 
@@ -74,12 +74,12 @@ private struct InboxTaskRow: View {
             Spacer()
 
             HStack(spacing: 8) {
-                Button("Heute") { taskStore.moveToToday(task) }
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.small)
+                GlassButton(systemImage: "sun.max", label: "Heute", variant: .secondary) {
+                    taskStore.moveToToday(task)
+                }
 
                 Button { onEdit() } label: {
-                    Image(systemName: "pencil.circle").foregroundStyle(.secondary)
+                    Image(systemName: "pencil.circle").foregroundStyle(Color.textTertiary)
                 }
                 .buttonStyle(.plain)
             }

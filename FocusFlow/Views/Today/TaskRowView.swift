@@ -18,13 +18,13 @@ struct TaskRowView: View {
                     Text(task.title)
                         .font(.body)
                         .strikethrough(completed)
-                        .foregroundStyle(completed ? .secondary : .primary)
+                        .foregroundStyle(completed ? Color.textSecondary : Color.textPrimary)
                         .animation(.easeInOut(duration: 0.2), value: completed)
 
                     if task.priority == .high {
                         Image(systemName: "exclamationmark")
                             .font(.caption)
-                            .foregroundStyle(.red)
+                            .foregroundStyle(Color.danger)
                     }
                 }
 
@@ -36,7 +36,7 @@ struct TaskRowView: View {
                             Image(systemName: "calendar")
                         }
                         .font(.caption)
-                        .foregroundStyle(isOverdue(deadline) ? .red : .secondary)
+                        .foregroundStyle(isOverdue(deadline) ? Color.danger : Color.textSecondary)
                     }
 
                     if let project = taskStore.project(for: task) {
@@ -46,14 +46,14 @@ struct TaskRowView: View {
                                 .frame(width: 6, height: 6)
                             Text(project.name)
                                 .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color.textSecondary)
                         }
                     }
 
                     if let mins = task.estimatedMinutes {
                         Label("\(mins) Min", systemImage: "clock")
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.textSecondary)
                     }
 
                     ForEach(task.tags.prefix(2), id: \.self) { tag in
@@ -61,8 +61,8 @@ struct TaskRowView: View {
                             .font(.caption2)
                             .padding(.horizontal, 5)
                             .padding(.vertical, 2)
-                            .background(.quaternary, in: Capsule())
-                            .foregroundStyle(.secondary)
+                            .background(Color.surface2, in: Capsule())
+                            .foregroundStyle(Color.textSecondary)
                     }
                 }
             }

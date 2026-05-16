@@ -9,14 +9,14 @@ struct EmptyStateView: View {
         VStack(spacing: 16) {
             Image(systemName: icon)
                 .font(.system(size: 48))
-                .foregroundStyle(.quaternary)
+                .foregroundStyle(Color.textQuaternary)
             VStack(spacing: 6) {
                 Text(title)
                     .font(.headline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.textSecondary)
                 Text(message)
                     .font(.callout)
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(Color.textTertiary)
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: 280)
             }

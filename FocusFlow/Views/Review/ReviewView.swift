@@ -48,7 +48,7 @@ private struct ReviewTaskRow: View {
     var body: some View {
         HStack(spacing: 0) {
             Image(systemName: "arrow.clockwise.circle.fill")
-                .foregroundStyle(.orange)
+                .foregroundStyle(Color.warnOrange)
                 .font(.title3)
                 .frame(width: 36, height: 36)
                 .padding(.leading, 12)
@@ -58,7 +58,7 @@ private struct ReviewTaskRow: View {
                 if let deadline = task.deadline {
                     Text(deadline, format: .dateTime.day().month().year())
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.textSecondary)
                 }
             }
             .padding(.vertical, 10)
@@ -67,17 +67,16 @@ private struct ReviewTaskRow: View {
             Spacer()
 
             HStack(spacing: 6) {
-                Button("Heute") { taskStore.moveToToday(task) }
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.small)
+                GlassButton(systemImage: "sun.max", label: "Heute", variant: .secondary) {
+                    taskStore.moveToToday(task)
+                }
 
-                Button("Fertig") { taskStore.completeTask(task) }
-                    .buttonStyle(.bordered)
-                    .controlSize(.small)
-                    .tint(.green)
+                GlassButton(systemImage: "checkmark", label: "Fertig", variant: .primary) {
+                    taskStore.completeTask(task)
+                }
 
                 Button { onEdit() } label: {
-                    Image(systemName: "pencil.circle").foregroundStyle(.secondary)
+                    Image(systemName: "pencil.circle").foregroundStyle(Color.textTertiary)
                 }
                 .buttonStyle(.plain)
             }
