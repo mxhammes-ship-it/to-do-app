@@ -30,6 +30,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		565B53E62FB8F76500701869 /* Untitled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Untitled.swift; sourceTree = "<group>"; };
+		AA000000000000000000000E /* FocusFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FocusFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA000000000000000000F001 /* FocusFlowApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusFlowApp.swift; sourceTree = "<group>"; };
 		AA000000000000000000F002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AA000000000000000000F003 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
@@ -51,7 +53,6 @@
 		AA000000000000000000F013 /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
 		AA000000000000000000F014 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA000000000000000000F015 /* FocusFlow.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FocusFlow.entitlements; sourceTree = "<group>"; };
-		AA000000000000000000000E /* FocusFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FocusFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,22 +66,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AA000000000000000000FACE /* / */ = {
-			isa = PBXGroup;
-			children = (
-				AA000000000000000000A001 /* FocusFlow */,
-				AA000000000000000000DEAD /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		AA000000000000000000DEAD /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AA000000000000000000000E /* FocusFlow.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		AA000000000000000000A001 /* FocusFlow */ = {
 			isa = PBXGroup;
 			children = (
@@ -219,6 +204,23 @@
 				AA000000000000000000F013 /* ReminderService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		AA000000000000000000DEAD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA000000000000000000000E /* FocusFlow.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AA000000000000000000FACE = {
+			isa = PBXGroup;
+			children = (
+				AA000000000000000000A001 /* FocusFlow */,
+				AA000000000000000000DEAD /* Products */,
+				565B53E62FB8F76500701869 /* Untitled.swift */,
+			);
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -498,7 +500,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
 	};
 	rootObject = AA000000000000000000CAFE /* Project object */;
 }
