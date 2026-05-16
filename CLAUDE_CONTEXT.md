@@ -252,6 +252,21 @@ JSON Load/Save.
 
 ---
 
+## Guardrails — Geschützte Dateien
+
+Diese Dateien nur mit expliziter Begründung ändern:
+- `DesignSystem/Color+Tokens.swift` — Single Source of Truth für Farben
+- `DesignSystem/Spacing.swift` — alle Abstands-Tokens
+- `DesignSystem/CheckCircle.swift` — Completion-Animation
+- `DesignSystem/GlassButton.swift` — Button-Primitive
+- `DesignSystem/DividerLine.swift` — Trennlinien-Primitive
+- `DesignSystem/SectionLabel.swift` — Section-Header-Primitive
+- `DesignSystem/AuroraWallpaper.swift` — Hintergrund-Primitive
+- `ViewModels/TaskStore.swift` — State-Management-Zentrale
+- `FocusFlow.xcodeproj/project.pbxproj` — nur bei neuen Dateien nötig
+
+---
+
 ## Bereits umgesetzt
 
 - vollständige Sidebar-Navigation
@@ -286,11 +301,13 @@ Der MVP ist funktional abgeschlossen.
 
 Aktueller Fokus:
 Design-Migration abgeschlossen bis Schritt 6C.
+
 Unmittelbar offen (Design):
 - Token-Finish: 5x .foregroundStyle(.secondary) → Color.textSecondary
   (TodayView:34, ViewHeader:24, InboxView:59+65, ProjectsView:139)
 - TaskFormView Visual-Polish (bewusst aus 6A–6C ausgeschlossen)
 - EmptyStateView Token-Konsistenz prüfen
+
 Danach (Produkt):
 - Drag & Drop zwischen Sidebar-Sektionen
 - Kontextmenüs auf Task-Rows
@@ -305,14 +322,10 @@ Aktuell keine Priorität:
 
 ---
 
-## Aktuelle offene Punkte
+## Backlog / V2
 
-Mögliche nächste Erweiterungen:
-- Drag & Drop zwischen Sidebar-Sektionen
+Mögliche spätere Erweiterungen (nicht im aktuellen Fokus):
 - globale Suche
-- Kontextmenüs auf Task-Rows
-- App-Icon
-- Login-Item für Auto-Start
 - Outlook-Kalender-Sync
 - Apple Intelligence Integration
 - Statistiken / Wochenrückblick

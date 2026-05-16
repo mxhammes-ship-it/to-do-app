@@ -107,10 +107,10 @@ Linearer Verlauf 160°. Darüber drei radiale Aurora-Glows mit 40–60 px Blur �
 ### Text (alle weiß mit Alpha)
 | Token | Alpha | Verwendung |
 |---|---|---|
-| `text` | 0.94 | Primär (Titel, Body) |
-| `text2` | 0.62 | Sekundär (Meta) |
-| `text3` | 0.40 | Tertiär (Hints, Labels) |
-| `text4` | 0.22 | Quartär (Disabled, Microcopy) |
+| `textPrimary` | 0.94 | Primär (Titel, Body) |
+| `textSecondary` | 0.62 | Sekundär (Meta) |
+| `textTertiary` | 0.40 | Tertiär (Hints, Labels) |
+| `textQuaternary` | 0.22 | Quartär (Disabled, Microcopy) |
 
 ### Akzente (Forest-Set, dark-friendly)
 
@@ -225,6 +225,9 @@ Horizontale Abstände und Padding bleiben **unverändert**. Density verändert R
 5. **Spacer** (flexibel)
 6. **Account-Card** unten (Avatar, Name, „Outlook · synced 2m ago")
 
+> ⚠️ Aspiration (V2): QuickCapturePill (1.) und Account-Card (6.) sind noch nicht implementiert.
+> Aktuelle Sidebar: Section-basierte `List(.sidebar)` ohne Capture-Pill und ohne Footer.
+
 ### Goldene Regeln
 - **Eine primäre Aktion pro Screen.** In der Toolbar rechts. Alle anderen Buttons sind sekundär (Glass-Pill).
 - **Eine AI-/Status-Karte oben** — nie zwei nebeneinander, nie verschachtelt.
@@ -242,7 +245,16 @@ Task-Rows mit CheckCircle bekommen einen Hover-State auf dem äusseren HStack:
 .onHover { isHovered = $0 }
 Hover umrahmt die ganze Row, nicht nur den Check-Kreis.
 
-Hohle Kreise (1.5 px Stroke) → bei Erledigung volle Fläche mit `IconCheck` (Stroke 2.4) in Weiß. **Drei Größen:** 16 (List), 18 (Row), 20 (Expanded). Faint-State für „noch nicht erfassbar" (z. B. inbox-leer): Border auf `text4`.
+Hohle Kreise (1.5 px Stroke) → bei Erledigung volle Fläche mit `IconCheck` (Stroke 2.4) in Weiß. **Drei Größen:** 16 (List), 18 (Row), 20 (Expanded). Faint-State für „noch nicht erfassbar" (z. B. inbox-leer): Border auf `textQuaternary`.
+
+### DividerLine
+
+Trennlinie zwischen Listen-Rows. Ersetzt System `Divider()` in allen Scroll-Listen.
+```swift
+DividerLine()
+    .padding(.leading, Spacing.rowIndent) // 56 px — bündig mit Task-Text
+```
+Nie `Divider()` in Listen verwenden — Höhe und Farbe sind nicht token-kontrollierbar.
 
 ### Sidebar-Item (`SBItem`)
 - Höhe ~ 30 px, Radius 7, Margin 1 px vertikal, 10 px horizontal
@@ -416,7 +428,9 @@ Nicht prominent. Verfügbar über `File → Export Today as PDF`, formatiert fü
 - **Keine Emoji als Projekt-Icons** (nur SF-Symbols-Style-Line-Icons).
 - **Keine Konfetti-Animationen**, keine Punkte, keine Streaks bei Erledigung.
 - Erlaubt: dezente CheckCircle-Animation (Kreis füllt sich, Häkchen mit Spring) einmaliger NSSound „Hero" — als hochwertiges, nicht verspieltes Feedback.
-- Nicht erlaubt: Konfetti, Score-Counter, „+10 XP"-Einblendungen, Streak-Anzeige.- **Keine Maskottchen, keine Onboarding-Wizards mit „Hi, ich bin Ada!"**.
+- Nicht erlaubt: Konfetti, Score-Counter, „+10 XP"-Einblendungen, Streak-Anzeige.
+
+- **Keine Maskottchen, keine Onboarding-Wizards mit „Hi, ich bin Ada!"**.
 
 ### Visuelle Anti-Patterns
 - **Keine Gradients als Card-Background** (Gradient nur auf Wallpaper und Avatar).
@@ -463,15 +477,15 @@ Als kompakter Cheat-Sheet beim Bauen neuer Screens:
 
 ## 13. Empfehlungen für SwiftUI-Komponentenstruktur
 
-⚠️ Section 13 beschreibt den angestrebten Architektur-Zielstand (V2+),
-nicht den aktuellen MVP-Stand.
-
-Aktueller Stand (nach Schritt 6C):
-- ObservableObject statt @Observable
-- JSON + PersistenceService statt SwiftData
-- Kein CloudKit, kein EventKit, kein AppIntents
-- Datei-Layout: FocusFlow/ (nicht TodoApp/) — siehe CLAUDE_CONTEXT.md
-Diese Prinzipien gelten dennoch als Leitlinie für alle Architektur-Entscheidungen.
+> ⚠️ Section 13 beschreibt den angestrebten Architektur-Zielstand (V2+), nicht den aktuellen MVP-Stand.
+>
+> Aktueller Stand (nach Schritt 6C):
+> - ObservableObject statt @Observable
+> - JSON + PersistenceService statt SwiftData
+> - Kein CloudKit, kein EventKit, kein AppIntents
+> - Datei-Layout: `FocusFlow/` (nicht `TodoApp/`) — siehe CLAUDE_CONTEXT.md
+>
+> Diese Prinzipien gelten dennoch als Leitlinie für alle Architektur-Entscheidungen.
 
 ### Architektur-Ansatz
 - **MV(VM)** mit `@Observable` (Swift 5.9+) statt MVVM-Boilerplate.

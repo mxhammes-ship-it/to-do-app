@@ -541,7 +541,7 @@ struct Kbd: View {
             .padding(.horizontal, 6).padding(.vertical, 1.5)
             .background(
                 RoundedRectangle(cornerRadius: 4)
-                    .fill(Color.surface(level: 2))
+                    .fill(Color.surface(level: 2)) // ⚠️ Spec: Color.surface(level:) — nicht implementiert. Verwende Color.surface2
                     .overlay(RoundedRectangle(cornerRadius: 4)
                         .strokeBorder(.white.opacity(0.06), lineWidth: 0.5))
                     .overlay(alignment: .bottom) {
@@ -661,6 +661,7 @@ struct DividerLine: View {
             .frame(height: 0.5)
     }
 }
+```
 
 ---
 
@@ -1510,21 +1511,21 @@ Hauptfenster. Settings ist ein eigenes Fenster mit Standard-Style.
 | A7 | SectionLabel | Atom | `DesignSystem/Atoms/SectionLabel.swift` | ✅ vereinfacht |
 | A8 | TrafficLights | Atom (native) | — (NSWindow standard) | ✅ nativ |
 | A8b | DividerLine | Atom | DesignSystem/DividerLine.swift | ✅ implementiert 6b |
-| M1 | SidebarItem | Molecule | `DesignSystem/Molecules/SidebarItem.swift` | ✅ implementiert 6B |
+| M1 | SidebarItem | Molecule | `DesignSystem/Molecules/SidebarItem.swift` | ⚠️ abweichend (6C) |
 | M2 | SidebarSection | Molecule | `DesignSystem/Molecules/SidebarSection.swift` | ⚠️ abweichend |
-| M3 | TimelineRow | Molecule | `DesignSystem/Molecules/TimelineRow.swift` | ⚠️ abweichend |
+| M3 | TimelineRow | Molecule | `DesignSystem/Molecules/TimelineRow.swift` | ❌ nicht implementiert |
 | M4 | InboxRow | Molecule | `DesignSystem/Molecules/InboxRow.swift` | ⚠️ abweichend |
-| M5 | FieldRow | Molecule | `DesignSystem/Molecules/FieldRow.swift` | ⚠️ abweichend |
-| M6 | AISummaryCard | Molecule | `DesignSystem/Molecules/AISummaryCard.swift` | ⚠️ abweichend |
-| M7 | ProgressCard | Molecule | `DesignSystem/Molecules/ProgressCard.swift` | ⚠️ abweichend |
-| M8 | AccountCard | Molecule | `DesignSystem/Molecules/AccountCard.swift` | ⚠️ abweichend |
+| M5 | FieldRow | Molecule | `DesignSystem/Molecules/FieldRow.swift` | ❌ nicht implementiert |
+| M6 | AISummaryCard | Molecule | `DesignSystem/Molecules/AISummaryCard.swift` | ❌ nicht implementiert |
+| M7 | ProgressCard | Molecule | `DesignSystem/Molecules/ProgressCard.swift` | ❌ nicht implementiert |
+| M8 | AccountCard | Molecule | `DesignSystem/Molecules/AccountCard.swift` | ❌ nicht implementiert |
 | M9 | NotificationCard | Molecule | `Features/Notification/NotificationCard.swift` | ⚠️ abweichend |
-| M10 | SnoozeMenu | Molecule | `Features/Notification/SnoozeMenu.swift` | ⚠️ abweichend |
-| M11 | Dock (mock) | — | — (nicht produktiv) | ⚠️ abweichend |
+| M10 | SnoozeMenu | Molecule | `Features/Notification/SnoozeMenu.swift` | ❌ nicht implementiert |
+| M11 | Dock (mock) | — | — (nicht produktiv) | ❌ nicht implementiert |
 | O1 | AppSidebar | Organism | `DesignSystem/Organisms/AppSidebar.swift` | ⚠️ abweichend |
 | O2 | AppToolbar | Organism | `DesignSystem/Organisms/AppToolbar.swift` | ⚠️ vereinfacht |
 | O3 | ExpandedInboxItem | Organism | `Features/Inbox/ExpandedInboxItem.swift` | ❌ nicht implementiert |
-| O4 | NotificationStack | Organism | ❌ nicht implementiert | `Features/Notification/NotificationStack.swift` | ❌ nicht implementiert |
+| O4 | NotificationStack | Organism | `Features/Notification/NotificationStack.swift` | ❌ nicht implementiert |
 | O5 | QuickCapturePill | Organism | `Features/Capture/QuickCapturePill.swift` | ❌ nicht implementiert |
 | L1 | TahoeWindow | Shell | — (via NavigationSplitView) | ✅ via NavigationSplitView |
 
@@ -1597,3 +1598,35 @@ Jede Komponente wird in einer **Preview-Catalog**-View gegen alle States gerende
 ```
 
 Optional: **Snapshot-Tests** mit `swift-snapshot-testing` für CI.
+
+---
+
+# Guardrails — Geschützte Dateien
+
+Diese DesignSystem-Atome nur mit expliziter Begründung ändern:
+- `DesignSystem/Color+Tokens.swift` — Single Source of Truth für alle Farben
+- `DesignSystem/Spacing.swift` — alle Abstands-Tokens
+- `DesignSystem/CheckCircle.swift` — Completion-Animation
+- `DesignSystem/GlassButton.swift` — Button-Primitive
+- `DesignSystem/DividerLine.swift` — Trennlinien-Primitive
+- `DesignSystem/SectionLabel.swift` — Section-Header-Primitive
+- `DesignSystem/AuroraWallpaper.swift` — Hintergrund-Primitive
+
+---
+
+# Offene Design-Punkte (nach 6C)
+
+## Sofort (Token-Finish)
+- [ ] 5× `.foregroundStyle(.secondary)` → `Color.textSecondary`
+  - TodayView:34, ViewHeader:24, InboxView:59+65, ProjectsView:139
+
+## Nächste Sprint
+- [ ] TaskFormView Visual-Polish
+- [ ] ReminderSheetView Token-Konsistenz
+- [ ] EmptyStateView Token-Konsistenz prüfen
+
+## Produkt (Backlog)
+- [ ] Drag & Drop zwischen Sidebar-Sektionen
+- [ ] Kontextmenüs auf Task-Rows
+- [ ] App-Icon
+- [ ] Login-Item für Auto-Start
