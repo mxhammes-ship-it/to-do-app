@@ -27,6 +27,8 @@
 		AA000000000000000000E012 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F012 /* PersistenceService.swift */; };
 		AA000000000000000000E013 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F013 /* ReminderService.swift */; };
 		AA000000000000000000E014 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F014 /* Assets.xcassets */; };
+		AA000000000000000000E015 /* Color+Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F016 /* Color+Tokens.swift */; };
+		AA000000000000000000E016 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F017 /* Spacing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +53,8 @@
 		AA000000000000000000F013 /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
 		AA000000000000000000F014 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA000000000000000000F015 /* FocusFlow.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FocusFlow.entitlements; sourceTree = "<group>"; };
+		AA000000000000000000F016 /* Color+Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Tokens.swift"; sourceTree = "<group>"; };
+		AA000000000000000000F017 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		AA000000000000000000000E /* FocusFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FocusFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -86,6 +90,7 @@
 			children = (
 				AA000000000000000000F001 /* FocusFlowApp.swift */,
 				AA000000000000000000F002 /* ContentView.swift */,
+				AA000000000000000000A010 /* DesignSystem */,
 				AA000000000000000000A002 /* Models */,
 				AA000000000000000000A003 /* ViewModels */,
 				AA000000000000000000A004 /* Views */,
@@ -221,6 +226,15 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		AA000000000000000000A010 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				AA000000000000000000F016 /* Color+Tokens.swift */,
+				AA000000000000000000F017 /* Spacing.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -310,6 +324,8 @@
 				AA000000000000000000E011 /* ViewHeader.swift in Sources */,
 				AA000000000000000000E012 /* PersistenceService.swift in Sources */,
 				AA000000000000000000E013 /* ReminderService.swift in Sources */,
+				AA000000000000000000E015 /* Color+Tokens.swift in Sources */,
+				AA000000000000000000E016 /* Spacing.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
