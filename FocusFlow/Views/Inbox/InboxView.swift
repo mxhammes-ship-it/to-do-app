@@ -73,17 +73,10 @@ private struct InboxTaskRow: View {
 
             Spacer()
 
-            HStack(spacing: 8) {
-                Button("Heute") { taskStore.moveToToday(task) }
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.small)
-
-                Button { onEdit() } label: {
-                    Image(systemName: "pencil.circle").foregroundStyle(.secondary)
-                }
-                .buttonStyle(.plain)
-            }
-            .padding(.trailing, 16)
+            Button("Heute") { taskStore.moveToToday(task) }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.small)
+                .padding(.trailing, 16)
         }
     }
 }

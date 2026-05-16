@@ -123,7 +123,7 @@ struct ProjectDetailView: View {
     }
 }
 
-private struct NewProjectSheet: View {
+struct NewProjectSheet: View {
     @EnvironmentObject var taskStore: TaskStore
     @Binding var isPresented: Bool
     @State private var name = ""
@@ -163,5 +163,48 @@ private struct NewProjectSheet: View {
         }
         .padding(24)
         .frame(width: 340)
+    }
+}
+
+// MARK: - Inline Project Detail
+
+struct ProjectInlineView: View {
+    @EnvironmentObject var taskStore: TaskStore
+    let project: Project
+    @Binding var taskToEdit: FocusTask?
+    @Binding var showingTaskForm: Bool
+
+    private var tasks: [FocusTask] { taskStore.tasksForProject(project) }
+
+    var body: some View {
+        VStack(spacing: 0) {
+            ViewHeader(
+                title: project.name,
+                subtitle: tasks.isEmpty ? "Keine offenen Aufgaben" : "\(tasks.count) offene Aufgaben",
+                onAdd: { taskToEdit = nil; showingTaskForm = true }
+            )
+
+            if tasks.isEmpty {
+                EmptyStateView(
+                    icon: "checkmark.circle",
+                    title: "Keine offenen Aufgaben",
+                    message: "Alle Aufgaben in diesem Projekt sind erledigt."
+                )
+            } else {
+                ScrollView {
+                    LazyVStack(spacing: 0) {
+                        ForEach(tasks) { task in
+                            TaskRowView(task: task) {
+                                taskToEdit = task
+                                showingTaskForm = true
+                            }
+                            Divider().padding(.leading, 56)
+                        }
+                    }
+                    .padding(.bottom, 24)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 }
