@@ -18,23 +18,6 @@ struct TaskFormView: View {
     @State private var estimatedMinutes = 30
     @State private var hasEstimate = false
     @State private var tagsText = ""
-    @State private var showingDeadlinePicker = false
-    @State private var showingReminderPicker = false
-
-    private static let deadlineFormatter: DateFormatter = {
-        let f = DateFormatter()
-        f.locale = Locale(identifier: "de_DE")
-        f.dateFormat = "dd.MM.yyyy"
-        return f
-    }()
-
-    private static let reminderFormatter: DateFormatter = {
-        let f = DateFormatter()
-        f.locale = Locale(identifier: "de_DE")
-        f.dateFormat = "dd.MM.yyyy, HH:mm"
-        return f
-    }()
-
     private var isEditing: Bool { task != nil }
 
     init(task: FocusTask? = nil) { self.task = task }
@@ -110,28 +93,9 @@ struct TaskFormView: View {
                         if hasDeadline {
                             HStack {
                                 Spacer()
-                                Button {
-                                    showingDeadlinePicker = true
-                                } label: {
-                                    HStack(spacing: 6) {
-                                        Image(systemName: "calendar")
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
-                                        Text(Self.deadlineFormatter.string(from: deadline))
-                                            .foregroundStyle(.primary)
-                                    }
-                                    .padding(.horizontal, 10)
-                                    .padding(.vertical, 4)
-                                    .background(.quaternary.opacity(0.6), in: RoundedRectangle(cornerRadius: 5))
-                                }
-                                .buttonStyle(.plain)
-                                .popover(isPresented: $showingDeadlinePicker, arrowEdge: .top) {
-                                    DatePicker("", selection: $deadline, displayedComponents: .date)
-                                        .datePickerStyle(.graphical)
-                                        .labelsHidden()
-                                        .padding()
-                                        .frame(width: 280)
-                                }
+                                DatePicker("", selection: $deadline, displayedComponents: .date)
+                                    .labelsHidden()
+                                    .datePickerStyle(.field)
                             }
                         }
                         Divider()
@@ -139,28 +103,9 @@ struct TaskFormView: View {
                         if hasReminder {
                             HStack {
                                 Spacer()
-                                Button {
-                                    showingReminderPicker = true
-                                } label: {
-                                    HStack(spacing: 6) {
-                                        Image(systemName: "bell")
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
-                                        Text(Self.reminderFormatter.string(from: reminder))
-                                            .foregroundStyle(.primary)
-                                    }
-                                    .padding(.horizontal, 10)
-                                    .padding(.vertical, 4)
-                                    .background(.quaternary.opacity(0.6), in: RoundedRectangle(cornerRadius: 5))
-                                }
-                                .buttonStyle(.plain)
-                                .popover(isPresented: $showingReminderPicker, arrowEdge: .top) {
-                                    DatePicker("", selection: $reminder, displayedComponents: [.date, .hourAndMinute])
-                                        .datePickerStyle(.graphical)
-                                        .labelsHidden()
-                                        .padding()
-                                        .frame(width: 280)
-                                }
+                                DatePicker("", selection: $reminder, displayedComponents: [.date, .hourAndMinute])
+                                    .labelsHidden()
+                                    .datePickerStyle(.field)
                             }
                         }
                         Divider()
