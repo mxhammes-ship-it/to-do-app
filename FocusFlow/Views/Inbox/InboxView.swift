@@ -45,30 +45,36 @@ private struct InboxTaskRow: View {
     let onEdit: () -> Void
 
     @State private var completed = false
-    @State private var checkScale: CGFloat = 1.0
+    @State private var circleScale: CGFloat = 1.0
+    @State private var ringScale: CGFloat = 1.0
+    @State private var ringOpacity: Double = 0.0
 
     var body: some View {
         HStack(spacing: 0) {
-            Button { triggerCompletion() } label: {
-                ZStack {
-                    if completed {
-                        Circle()
-                            .fill(priorityColor)
-                            .frame(width: 20, height: 20)
-                        Image(systemName: "checkmark")
-                            .font(.system(size: 10, weight: .bold))
-                            .foregroundStyle(.white)
-                            .scaleEffect(checkScale)
-                    } else {
-                        Circle()
-                            .strokeBorder(priorityColor.opacity(0.7), lineWidth: 1.5)
-                            .frame(width: 20, height: 20)
-                    }
+            ZStack {
+                Circle()
+                    .strokeBorder(priorityColor, lineWidth: 2)
+                    .frame(width: 20, height: 20)
+                    .scaleEffect(ringScale)
+                    .opacity(ringOpacity)
+
+                if completed {
+                    Circle()
+                        .fill(priorityColor)
+                        .frame(width: 20, height: 20)
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundStyle(.white)
+                } else {
+                    Circle()
+                        .strokeBorder(priorityColor.opacity(0.7), lineWidth: 1.5)
+                        .frame(width: 20, height: 20)
                 }
-                .frame(width: 36, height: 36)
             }
-            .buttonStyle(.plain)
+            .scaleEffect(circleScale)
+            .frame(width: 36, height: 36)
             .padding(.leading, 12)
+            .onTapGesture { triggerCompletion() }
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(task.title)
@@ -113,15 +119,24 @@ private struct InboxTaskRow: View {
     }
 
     private func triggerCompletion() {
-        withAnimation(.spring(response: 0.25, dampingFraction: 0.6)) {
+        guard !completed else { return }
+        NSSound(named: "Tink")?.play()
+
+        ringScale = 1.0
+        ringOpacity = 0.7
+
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) {
             completed = true
-            checkScale = 1.3
+            circleScale = 1.25
         }
-        withAnimation(.spring(response: 0.2, dampingFraction: 0.8).delay(0.15)) {
-            checkScale = 1.0
+        withAnimation(.spring(response: 0.25, dampingFraction: 0.8).delay(0.1)) {
+            circleScale = 1.0
         }
-        NSSound(named: "Hero")?.play()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.55) {
+        withAnimation(.easeOut(duration: 0.45)) {
+            ringScale = 1.9
+            ringOpacity = 0.0
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             taskStore.completeTask(task)
         }
     }
