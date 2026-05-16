@@ -29,6 +29,7 @@
 		AA000000000000000000E014 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F014 /* Assets.xcassets */; };
 		AA000000000000000000E015 /* Color+Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F016 /* Color+Tokens.swift */; };
 		AA000000000000000000E016 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F017 /* Spacing.swift */; };
+		AA000000000000000000E017 /* AuroraWallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000F018 /* AuroraWallpaper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		AA000000000000000000F015 /* FocusFlow.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FocusFlow.entitlements; sourceTree = "<group>"; };
 		AA000000000000000000F016 /* Color+Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Tokens.swift"; sourceTree = "<group>"; };
 		AA000000000000000000F017 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
+		AA000000000000000000F018 /* AuroraWallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuroraWallpaper.swift; sourceTree = "<group>"; };
 		AA000000000000000000000E /* FocusFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FocusFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -229,6 +231,7 @@
 		AA000000000000000000A010 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
+				AA000000000000000000F018 /* AuroraWallpaper.swift */,
 				AA000000000000000000F016 /* Color+Tokens.swift */,
 				AA000000000000000000F017 /* Spacing.swift */,
 			);
@@ -326,6 +329,7 @@
 				AA000000000000000000E013 /* ReminderService.swift in Sources */,
 				AA000000000000000000E015 /* Color+Tokens.swift in Sources */,
 				AA000000000000000000E016 /* Spacing.swift in Sources */,
+				AA000000000000000000E017 /* AuroraWallpaper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

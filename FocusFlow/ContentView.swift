@@ -19,7 +19,10 @@ struct ContentView: View {
         NavigationSplitView {
             SidebarView(selectedSection: $selectedSection)
         } detail: {
-            detailView
+            ZStack {
+                AuroraWallpaper()
+                detailView
+            }
         }
         .navigationSplitViewStyle(.balanced)
         .sheet(isPresented: $showingTaskForm, onDismiss: { taskToEdit = nil }) {

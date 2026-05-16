@@ -57,7 +57,7 @@ struct CompletedView: View {
                                     .foregroundStyle(.secondary).textCase(.uppercase)
                                     .padding(.horizontal, 24).padding(.vertical, 8)
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .background(.background)
+                                    .background(Color.windowBg)
                             }
                         }
                     }

@@ -55,7 +55,7 @@ struct UpcomingView: View {
                                     .padding(.horizontal, 24)
                                     .padding(.vertical, 8)
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .background(.background)
+                                    .background(Color.windowBg)
                             }
                         }
                     }

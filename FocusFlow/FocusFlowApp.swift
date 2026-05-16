@@ -8,6 +8,7 @@ struct FocusFlowApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(taskStore)
+                .preferredColorScheme(.dark)
         }
         .windowStyle(.titleBar)
         .windowToolbarStyle(.unified)
