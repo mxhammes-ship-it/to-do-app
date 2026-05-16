@@ -24,6 +24,16 @@ final class ReminderCenter: ObservableObject {
         }
     }
 
+    func clearAndDismiss(taskID: UUID) {
+        if let task = activeTasks.first(where: { $0.id == taskID }),
+           let store {
+            var updated = task
+            updated.reminderDate = nil
+            store.updateTask(updated)
+        }
+        dismiss(taskID: taskID)
+    }
+
     func dismiss(taskID: UUID) {
         activeTasks.removeAll { $0.id == taskID }
         let count = activeTasks.count
@@ -300,7 +310,7 @@ struct ReminderPanelView: View {
             .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.secondary.opacity(0.2), lineWidth: 0.5))
 
             HStack(spacing: 8) {
-                Button("Schliessen") { center.dismiss(taskID: task.id) }
+                Button("Schliessen") { center.clearAndDismiss(taskID: task.id) }
                     .buttonStyle(.bordered)
                     .frame(maxWidth: .infinity)
 
